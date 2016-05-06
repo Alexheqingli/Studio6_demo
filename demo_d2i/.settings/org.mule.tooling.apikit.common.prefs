@@ -1,0 +1,3 @@
+api_version={"apiId"\:"65172","apiName"\:"Demo 1","versionName"\:"1.1.dev","versionId"\:"67730","deprecated"\:false,"description"\:"Demo for a t-shirt catalog REST API.","organizationId"\:"f6cfe92c-36b9-44cb-8159-928fde76da26","exportUrl"\:"https\://anypoint.mulesoft.com/apiplatform/repository/v2/organizations/f6cfe92c-36b9-44cb-8159-928fde76da26/apis/65172/versions/67730/files/export","rootFileId"\:"805900"}
+eclipse.preferences.version=1
+users=[{"token"\:"27631a6d-d94e-4ad9-b07f-9c4cc5053407","userId"\:"alexli","refreshToken"\:""}]

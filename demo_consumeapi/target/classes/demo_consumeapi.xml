@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:file="http://www.mulesoft.org/schema/mule/file" xmlns:dw="http://www.mulesoft.org/schema/mule/ee/dw" xmlns:metadata="http://www.mulesoft.org/schema/mule/metadata" xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xmlns:spring="http://www.springframework.org/schema/beans" 
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-current.xsd
+http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
+http://www.mulesoft.org/schema/mule/file http://www.mulesoft.org/schema/mule/file/current/mule-file.xsd
+http://www.mulesoft.org/schema/mule/ee/dw http://www.mulesoft.org/schema/mule/ee/dw/current/dw.xsd">
+    <http:request-config name="HTTP_Request_Configuration" host="connect-demo-rest.cloudhub.io" port="80" basePath="/api" doc:name="HTTP Request Configuration">
+        <http:raml-api-configuration location="/Users/alexheqingli/AnypointStudio/workspace_demo/api.raml"/>
+    </http:request-config>
+    <flow name="demo_consumeapiFlow">
+        <poll doc:name="Poll">
+            <fixed-frequency-scheduler frequency="1" timeUnit="DAYS"/>
+            <http:request config-ref="HTTP_Request_Configuration" path="/products" method="GET" doc:name="HTTP"/>
+        </poll>
+        <dw:transform-message metadata:id="f3cb6993-17a5-4d3d-8177-969f2b242556" doc:name="Transform Message">
+            <dw:set-payload><![CDATA[%dw 1.0
+%output application/csv
+---
+payload map ((payload01 , indexOfPayload01) -> {
+	Update: now as :string {format: "yyyy-MM-dd HH:mm:ss"},
+	ProductCode: payload01.productCode,
+	Size: payload01.size,
+	Description: payload01.description,
+	Count: payload01.count as :string
+})]]></dw:set-payload>
+        </dw:transform-message>
+        <file:outbound-endpoint path="/Users/alexheqingli/AnypointStudio/workspace_demo" outputPattern="Catalog.csv" responseTimeout="10000" doc:name="File"/>
+    </flow>
+</mule>

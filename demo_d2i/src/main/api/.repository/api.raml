@@ -1,0 +1,26 @@
+#%RAML 0.8
+baseUri: http://connect-demo-rest.cloudhub.io/api
+title: Demo
+version: 1.1.development
+/products:
+  get:
+    description: Gets a list of all the inventory products.
+    responses:
+      200:
+        body:
+          application/json:
+            example: | 
+              [
+                {
+                  "productCode": "TS",
+                  "size": "S",
+                  "description": "Small T-shirt",
+                  "count": 32
+                },
+                {
+                  "productCode": "TS",
+                  "size": "M",
+                  "description": "Medium T-shirt",
+                  "count": 22
+                }
+              ]
